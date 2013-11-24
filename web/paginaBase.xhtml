@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="eng" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content=""/>
+        <meta name="author" content="Andre Firmo"/>
+        <title>WebStore</title>
+        <h:outputStylesheet name="dist/css/bootstrap.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <h:outputStylesheet name="css/default.css"/>
+        <script src="/WebApp/faces/javax.faces.resource/js/jquery-1.10.2.min.js"></script>
+        <script src="/WebApp/faces/javax.faces.resource/dist/js/bootstrap.min.js"></script>
+    </h:head>
+    
+    <h:body>
+        
+        <ui:insert name="top">
+            
+            <nav class="navbar navbar-default" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">WebStore</a>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><h:link outcome="#{loginManagedBean.goToCadastroCliente()}" value="Novo Usuário"/></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle active" data-toggle="dropdown">Departaments<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">DVD's\BLURay's</a></li>
+                                <li><a href="#">MP3</a></li>
+                                <li><a href="#">Games</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">DVDBLURay</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h:form class="navbar-form navbar-left" pt:role="search">  
+                        <div class="form-group">
+                            <h:inputText size="15" value="#{pesquisarMediaMB.genero}" class="form-control" pt:placeholder="Genero"/> 
+                            <h:inputText size="15" value="#{pesquisarMediaMB.titulo}" class="form-control" pt:placeholder="Titulo"/> 
+                        </div>
+                        <h:commandButton action="#{pesquisarMediaMB.pesquisar()}" class="btn btn-default" value="Search!"/>
+                    </h:form>   
+                    <h:form id="formBaseId1" class="navbar-form navbar-left">  
+                        <!--<f:ajax render="formBaseId1:user formBaseId1:pass formBaseId1:login formBaseId1:bv1 formBaseId1:bv2" execute="@all">-->
+                        <div class="form-group">
+                            <h:inputText id="user" rendered="#{!loginManagedBean.validated}" size="6" value="#{loginManagedBean.userName}" class="form-control" pt:placeholder="Usuario"/>
+                        </div>  
+                        <div class="form-group">
+                            <h:inputSecret id="pass" rendered="#{!loginManagedBean.validated}" size="6" value="#{loginManagedBean.pass}" class="form-control" pt:placeholder="Senha"/>
+                        </div>  
+                        <div class="form-group">  
+                            <h:commandButton id="login" rendered="#{!loginManagedBean.validated}" action="#{loginManagedBean.validateUser()}" class="btn btn-default" value="Entrar">
+                            </h:commandButton>    
+                            <!--</f:ajax>-->
+                        </div>
+                        <div class="form-group">
+                            <h:commandLink action="#{loginManagedBean.sair()}" id="bv1" rendered="#{loginManagedBean.validated}" value="Olá, #{loginManagedBean.systemUser.name}"/>
+                        </div>
+                        <div class="form-group right"> 
+                            <ul class="nav nav-pills">
+                                <li class="active">
+                                    <a href="#">Cart<span class="badge pull-right">42</span></a>
+                                </li>
+                            </ul>
+                        </div>    
+                    </h:form>    
+                    <!--<ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Departamentos<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">DVD's\BLURay's</a></li>
+                                <li><a href="#">MP3</a></li>
+                                <li><a href="#">Games</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">DVDBLURay</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    -->
+                    <!--<form class="navbar-form navbar-left" role="search">-->
+                    
+                </div><!-- /.navbar-collapse -->
+            </nav>
+        </ui:insert>
+        
+        <ui:insert name="content">
+            <div id="content" style="height: 500px">
+            <div class='panel panel-primary'>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <ol class="breadcrumb">
+                            <li class="active"><a href="#">Home</a></li>
+                        </ol>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <ui:repeat value="#{pesquisarMediaMB.medias}" var="item" >
+                        <h:form>
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <h:graphicImage class="pull-left" height="100" width="100" value="/NewServlet?id=#{item.id}"/>
+                            </a>
+                            <a class="pull-left" href="#">
+                            <div class="media-body">
+                                <h4 class="media-heading">#{item.name}</h4>
+                                <h5 class="media-heading">#{item.description}</h5>
+                                <h5 class="media-heading">R$<h:outputText value="#{item.price}"><f:convertNumber pattern="#,###,##0.00"/></h:outputText></h5>
+                            </div>
+                            </a>  
+                            <div class="media-body">
+                                <h:commandLink action="#{loginManagedBean.validateUser}" class="btn btn-default" value="Comprar"/>
+                            </div>
+                        </div>
+                        </h:form>
+                    </ui:repeat>
+                </div>    
+            </div>    
+           </div>       
+        </ui:insert>
+        <div id="bottom">
+            <ui:insert name="bottom">Designed By: André Firmo Software</ui:insert>
+        </div>
+        
+    </h:body>
+    
+</html>
